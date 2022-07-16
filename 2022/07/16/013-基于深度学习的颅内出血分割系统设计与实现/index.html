@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>基于深度学习的颅内出血分割系统设计与实现 | ʕ̯•͡˔•̯᷅ʔ</title><meta name="keywords" content="Python,深度学习,Keras,Tkinter"><meta name="author" content="HouYuanyuan"><meta name="copyright" content="HouYuanyuan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="利用Python和Tkinter设计开发基于Attention U-Net的图像分割系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于深度学习的颅内出血分割系统设计与实现">
+<meta property="og:url" content="http://houyuanyuan.github.io/2022/07/16/013-%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E5%88%86%E5%89%B2%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="ʕ̯•͡˔•̯᷅ʔ">
+<meta property="og:description" content="利用Python和Tkinter设计开发基于Attention U-Net的图像分割系统">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://houyuanyuan.github.io/img/post_cover/%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E7%B3%BB%E7%BB%9F.png">
+<meta property="article:published_time" content="2022-07-16T02:14:48.000Z">
+<meta property="article:modified_time" content="2022-07-16T03:34:37.474Z">
+<meta property="article:author" content="HouYuanyuan">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="Keras">
+<meta property="article:tag" content="Tkinter">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://houyuanyuan.github.io/img/post_cover/%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E7%B3%BB%E7%BB%9F.png"><link rel="shortcut icon" href="/img/transparent.png"><link rel="canonical" href="http://houyuanyuan.github.io/2022/07/16/013-%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E5%88%86%E5%89%B2%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: HouYuanyuan","link":"链接: ","source":"来源: ʕ̯•͡˔•̯᷅ʔ","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '基于深度学习的颅内出血分割系统设计与实现',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-07-16 11:34:37'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/sun.png'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/post_cover/%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E7%B3%BB%E7%BB%9F.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">ʕ̯•͡˔•̯᷅ʔ</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">基于深度学习的颅内出血分割系统设计与实现</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-07-16T02:14:48.000Z" title="发表于 2022-07-16 10:14:48">2022-07-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-16T03:34:37.474Z" title="更新于 2022-07-16 11:34:37">2022-07-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E7%A9%B6%E7%94%9F%E6%9C%9F%E9%97%B4/">研究生期间</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="基于深度学习的颅内出血分割系统设计与实现"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><strong>写在前面</strong><br>后续还加了存储图片功能，但是太久远了都不记得具体代码是哪份了，等之后有机会再补全</p>
+<blockquote>
+<p>将Attention U-Net网络应用到颅内出血区域分割中，基于Tensorflow后端的Keras框架搭建Attention U-Net网络模型并训练，选取合适的阈值进行全局阈值后处理。<br>利用Python 和Tkinter设计开发基于Attention U-Net的分割系统，用户可通过本系统任意选择测试集的图像，加载训练好的模型来预测和显示分割结果，还可选择U-Net、MultiResUnet、SegNet网络进行分割结果对比。</p>
+</blockquote>
+<h2 id="常见的Python-GUI"><a href="#常见的Python-GUI" class="headerlink" title="常见的Python GUI"></a>常见的Python GUI</h2><p>图形用户界面（GUI），也被称作图形用户接口。它指的是给用户提供图形交互的操作界面，用户可以通过输入设备和界面进行交流，表述自己的需求。GUI集美观性、实用性于一体。相较于命令行界面而言，不需要代码指令造成视觉疲劳，普通用户更易接受。</p>
+<h3 id="Tkinter"><a href="#Tkinter" class="headerlink" title="Tkinter"></a>Tkinter</h3><p>Tkinter是Python内置的GUI标准库，历史最悠久，具有跨平台的特性，可在Linux、Windows等系统上执行。使用Tkinter可以快速地创建GUI应用程序进行窗口视窗设计，提供简洁美观的计算机操作用户界面，非常适合小型应用开发，它还提供多种图形接口，如标签（Label）、按钮（Button）、画布（Canvas）等。<br>安装Python就已经同时安装此模块，使用前只需写入以下语句导入此模块即可。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tkinter <span class="keyword">as</span> tk</span><br></pre></td></tr></table></figure></p>
+<h3 id="PyQt"><a href="#PyQt" class="headerlink" title="PyQt"></a>PyQt</h3><p>Qt是C++语言下广泛应用的程序设计库。PyQt来源于Qt C++ GUI类库，是其Python绑定版本，拥有丰富的类上千个函数和方法，在常见操作系统上都可运行。由于Qt应用范围广，PyQt功能丰富，开发文档也较为齐全，是出名的的Tkinter替代品。不过PyQt语法较为复杂，且需要单独安装。</p>
+<h3 id="wxPython"><a href="#wxPython" class="headerlink" title="wxPython"></a>wxPython</h3><p>wxPython同PyQt非常相似，也是来源于C++ GUI类库，是Python语言对GUI工具集wxWidgets的绑定，跨平台能力极为优秀。使用wxPython前必须安装扩展模块，可供学习的文档较少，开发过程中遇到问题难以解决。 </p>
+<h2 id="系统设计与实现"><a href="#系统设计与实现" class="headerlink" title="系统设计与实现"></a>系统设计与实现</h2><h3 id="系统界面设计和功能实现"><a href="#系统界面设计和功能实现" class="headerlink" title="系统界面设计和功能实现"></a>系统界面设计和功能实现</h3><p>系统由介绍界面、基于Attention U-Net的颅内出血区域分割界面、和多种分割网络对比界面组成，这三个界面是基于tkinter.ttk模块的NoteBook控件实现选项卡子窗口切换，每个子窗口通过add方法添加进NoteBook实例化对象。详细系统构成见图示意。<br><img src="/2022/07/16/013-%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E5%88%86%E5%89%B2%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84.png" class title="This is an test image"></p>
+<h3 id="系统介绍界面"><a href="#系统介绍界面" class="headerlink" title="系统介绍界面"></a>系统介绍界面</h3><p>系统介绍界面详细介绍了系统的基础功能和界面内容，在短时间内让初次使用的用户对系统有一定了解，掌握系统操作方法。<br><img src="/2022/07/16/013-%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E5%88%86%E5%89%B2%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/%E7%B3%BB%E7%BB%9F%E4%BB%8B%E7%BB%8D.png" class title="This is an test image"></p>
+<h3 id="基于Attention-U-Net的颅内出血区域分割界面"><a href="#基于Attention-U-Net的颅内出血区域分割界面" class="headerlink" title="基于Attention U-Net的颅内出血区域分割界面"></a>基于Attention U-Net的颅内出血区域分割界面</h3><p>基于Attention U-Net的图像分割界面主要由展示、评价指标和操作三个模块组成，每个模块都是由标签框架（LabelFrame）构成，边缘设置边框，界面简洁明了。</p>
+<img src="/2022/07/16/013-%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E5%88%86%E5%89%B2%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/Att%E5%88%86%E5%89%B2%E5%89%8D.png" class title="This is an test image">
+<p>操作模块的四个按钮具体实现如下。</p>
+<ul>
+<li>“打开图片”按钮绑定open_files()方法，通过调用filedialog包中的askopenfilenames函数实现多文件读取，令filetypes为“*.png”指定读取文件类型。由于原图像尺寸过大，读取图片后采用了Image.resize函数对图像执行高质量裁剪。</li>
+<li>“分割出血区域”按钮绑定att_seg()方法，通过model.predict预测分割结果。</li>
+<li>“查看真值图”按钮绑定get_GT()方法，将第一步读取到的路径中的image替换为label，从新路径读取图片并显示真值图。此方法的前提是待分割图像和其真值图放在同一个文件夹的image、label两个文件夹下。</li>
+<li>“查看评价指标”按钮绑定get_dice()方法。评价指标模块的表格形式主要由tkinter.ttk模块的Treeview控件组成，右侧绑定了滚动条控件用于显示更多界面信息。方法内部调用judge(y_true,y_pred)方法计算评价指标，并用insert()方法插入表格内容。</li>
+</ul>
+<p>展示栏由三列无边框的标签框架内含数个Label标签构成，在读取到图片信息后会通过config和标签绑定从而显示图片。<br>用户按照操作栏的四个按钮依次执行，系统会显示选择的图片和其分割图、真值图，还可查看评价指标判断每张图片的分割精确度。</p>
+<img src="/2022/07/16/013-%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E5%88%86%E5%89%B2%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/att%E5%88%86%E5%89%B2%E7%BB%93%E6%9E%9C%E7%95%8C%E9%9D%A2.png" class title="This is an test image">
+<p>“分割出血区域”按钮调用了模型预测函数，在配置差的计算机中运行速度极为缓慢，甚至会卡顿，这里采用从threading模块创建多线程的方法将函数打包进线程，虽然显示图片速度依旧缓慢，但能有效避免卡死。为了让等待的过程产生趣味性，系统在需要较长时间等待操作时，产生置顶窗口并调用tkinter.ttk模块的Progressbar标签产生进度条，模仿加载过程。</p>
+<img src="/2022/07/16/013-%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E5%88%86%E5%89%B2%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/%E8%BF%9B%E5%BA%A6%E6%9D%A1.png" class title="This is an test image">
+<p>需要注意的是，目前系统只支持同时分割不多于10张图片，当选择打开的图片数量过多时，会出现警告，并只保留选择的前十张图片进行后续操作。警告信息是从tkinter导入弹窗库后，调用messagebox.showwarning得到的。</p>
+<img src="/2022/07/16/013-%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E5%88%86%E5%89%B2%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/%E8%AD%A6%E5%91%8A.png" class title="This is an test image">
+<h3 id="多种分割网络对比界面"><a href="#多种分割网络对比界面" class="headerlink" title="多种分割网络对比界面"></a>多种分割网络对比界面</h3><p>多种分割网络对比界面由原图、真值图、分割图、评价指标、操作五个模块构成。<br><img src="/2022/07/16/013-%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E5%88%86%E5%89%B2%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/%E5%A4%9A%E7%BD%91%E7%BB%9C%E5%88%86%E5%89%B2%E5%8E%9F%E5%A7%8B.png" class title="This is an test image"></p>
+<img src="/2022/07/16/013-%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E5%88%86%E5%89%B2%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/%E5%A4%9A%E7%BD%91%E7%BB%9C%E5%88%86%E5%89%B2%E7%BB%93%E6%9E%9C.png" class title="This is an test image">
+<h3 id="生成可执行文件"><a href="#生成可执行文件" class="headerlink" title="生成可执行文件"></a>生成可执行文件</h3><p>配置程序运行环境是一个复杂又易出错的过程，为了让本系统轻松运行在其他计算机上，选择Pyinstaller工具将程序打包成可执行文件，让系统具备可移植性。<br>Pyinstaller是Python的一个用于打包生成可执行文件的工具，不随Python默认安装，可使用pip命令安装。安装完成后命令行提示符窗口切换到系统程序所在路径下，执行pyinstaller system.py segnet_model.py，就可以生成带有控制台窗口的exe文件。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://houyuanyuan99.github.io">HouYuanyuan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://houyuanyuan.github.io/2022/07/16/013-%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E5%88%86%E5%89%B2%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/">http://houyuanyuan.github.io/2022/07/16/013-基于深度学习的颅内出血分割系统设计与实现/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://houyuanyuan.github.io" target="_blank">ʕ̯•͡˔•̯᷅ʔ</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><a class="post-meta__tags" href="/tags/Keras/">Keras</a><a class="post-meta__tags" href="/tags/Tkinter/">Tkinter</a></div><div class="post_share"><div class="social-share" data-image="/img/post_cover/%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E7%B3%BB%E7%BB%9F.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/07/10/006-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"><img class="next-cover" src="/img/post_cover/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.jfif" onerror="onerror=null;src='/img/bg/18.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据结构与算法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/10/18/007-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%92%8C%E9%83%A8%E5%88%86%E4%BB%A3%E7%A0%81/" title="机器学习和部分代码"><img class="cover" src="/img/post_cover/watermelon.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-18</div><div class="title">机器学习和部分代码</div></div></a></div><div><a href="/2021/08/04/009-Python-Pytorch%E7%AC%94%E8%AE%B0/" title="Python&amp;&amp;Pytorch笔记"><img class="cover" src="/img/post_cover/python.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-04</div><div class="title">Python&amp;&amp;Pytorch笔记</div></div></a></div><div><a href="/2021/08/17/010-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%AE%80%E5%8D%95%E8%B0%83%E7%A0%94/" title="多模态简单调研"><img class="cover" src="/img/post_cover/%E5%A4%9A%E6%A8%A1%E6%80%81.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-17</div><div class="title">多模态简单调研</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84Python-GUI"><span class="toc-number">1.</span> <span class="toc-text">常见的Python GUI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Tkinter"><span class="toc-number">1.1.</span> <span class="toc-text">Tkinter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PyQt"><span class="toc-number">1.2.</span> <span class="toc-text">PyQt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#wxPython"><span class="toc-number">1.3.</span> <span class="toc-text">wxPython</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">系统设计与实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E5%92%8C%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.1.</span> <span class="toc-text">系统界面设计和功能实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E4%BB%8B%E7%BB%8D%E7%95%8C%E9%9D%A2"><span class="toc-number">2.2.</span> <span class="toc-text">系统介绍界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EAttention-U-Net%E7%9A%84%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E5%8C%BA%E5%9F%9F%E5%88%86%E5%89%B2%E7%95%8C%E9%9D%A2"><span class="toc-number">2.3.</span> <span class="toc-text">基于Attention U-Net的颅内出血区域分割界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%A7%8D%E5%88%86%E5%89%B2%E7%BD%91%E7%BB%9C%E5%AF%B9%E6%AF%94%E7%95%8C%E9%9D%A2"><span class="toc-number">2.4.</span> <span class="toc-text">多种分割网络对比界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6"><span class="toc-number">2.5.</span> <span class="toc-text">生成可执行文件</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('/img/post_cover/%E9%A2%85%E5%86%85%E5%87%BA%E8%A1%80%E7%B3%BB%E7%BB%9F.png')"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2022 By HouYuanyuan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

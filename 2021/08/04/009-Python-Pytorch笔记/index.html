@@ -170,7 +170,8 @@
 <p>返回值是一个长度为a.ndim数组a的轴数的元组，元组的每个元素都是一个整数数组，其值为非零元素的下标在对应轴上的值</p>
 <h2 id="setattr"><a href="#setattr" class="headerlink" title="setattr()"></a>setattr()</h2><p>setattr() 函数指定对象的指定属性的值。<br>改变 “person” 对象的 “age” 属性的值：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>:</span><br><span class="line">  name = <span class="string">&quot;John&quot;</span></span><br><span class="line">  age = <span class="number">36</span></span><br><span class="line">  country = <span class="string">&quot;Norway&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">setattr</span>(Person, <span class="string">&#x27;age&#x27;</span>, <span class="number">40</span>)</span><br></pre></td></tr></table></figure><br>getattr() 函数获取某个类实例对象中指定属性的值</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">getattr</span>(clangs,<span class="string">&quot;name&quot;</span>))</span><br></pre></td></tr></table></figure>
-<h1 id="import-torch"><a href="#import-torch" class="headerlink" title="import torch"></a>import torch</h1><h2 id="torch-roll"><a href="#torch-roll" class="headerlink" title="torch.roll"></a>torch.roll</h2><p><font color="#999AAA"> torch.roll(input, shifts, dims=None) → Tensor</font></p>
+<h1 id="import-torch"><a href="#import-torch" class="headerlink" title="import torch"></a>import torch</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/QdZHMahD3sCtUrOuxkV9jA">PyTorch 常用 Tricks 总结</a></p>
+<h2 id="torch-roll"><a href="#torch-roll" class="headerlink" title="torch.roll"></a>torch.roll</h2><p><font color="#999AAA"> torch.roll(input, shifts, dims=None) → Tensor</font></p>
 <p><font color="#999AAA"><em>Roll the tensor along the given dimension(s). Elements that are shifted beyond the last position are re-introduced at the first position. If a dimension is not specified, the tensor will be flattened before rolling and then restored to the original shape.</em></font></p>
 <p>Parameters</p>
 <ul>
@@ -207,6 +208,7 @@
 <li>dim (int) – dimension along which to split the tensor（沿着哪个轴分块）</li>
 </ul>
 <h2 id="torch-einsum-爱因斯坦简记法"><a href="#torch-einsum-爱因斯坦简记法" class="headerlink" title="torch.einsum 爱因斯坦简记法"></a>torch.einsum 爱因斯坦简记法</h2><p>对向量、矩阵、张量的求和运算<br>torch.einsum(‘bhid,bhjd-&gt;bhij’,q,k) * self.scale<br>输入q，k，沿下标id</p>
+<p>更多讲解请参考：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/FvezivypQBTWkZ6ZYWnBAQ">einsum is all you needed！</a></p>
 <h2 id="torch-split-将tensor分成块结构"><a href="#torch-split-将tensor分成块结构" class="headerlink" title="torch.split 将tensor分成块结构"></a>torch.split 将tensor分成块结构</h2><p>torch.split(tensor, split_size_or_sections, dim=0)<br>参数：</p>
 <ul>
 <li>tesnor：input，待分输入</li>
